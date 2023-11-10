@@ -12,6 +12,15 @@
 
 #include "libft.h"
 #include <stdio.h>
+#include <string.h>
+
+int	is_sep(const char *s, char c)
+{
+	if (*s != c && (*(s + 1) == c || *(s + 1) == '\0'))
+		return (1);
+	else
+		return (0);
+}
 
 int	count_words(const char *s, char c)
 {
@@ -20,7 +29,7 @@ int	count_words(const char *s, char c)
 	words = 0;
 	while (*s)
 	{
-		if (*s == c)
+		if (is_sep(s, c))
 			words++;
 		s++;
 	}
@@ -31,40 +40,27 @@ char	**ft_split(char const *s, char c)
 {
 	char	**tab;
 	int		words;
+	int		i;
 
-	while (*s == c)
-		s++;
+	i = 0;
 	words = count_words(s, c);
-	tab = (char **)malloc(words + 1);
+	tab = (char **)malloc((words + 1) * sizeof(char*));
 	if (!tab)
 		return (NULL);
-	tab[words] = "\0";
+	tab[words] = NULL;
 	while (*s)
 	{
-		if (*s == c)
+		if (*s != c)
 		{
-			s++;
-			printf("l: %ld\n", ft_strchr(s, c) - s);
-			*tab = ft_substr(s, 0, ft_strchr(s, c) - s);
-			tab++;
+			i++;
+			if (is_sep(s, c))
+			{
+				*tab = ft_substr(s + 1 - i, 0, i);
+				tab++;
+				i = 0;
+			}
 		}
-		printf("%s\n", *tab);
 		s++;
 	}
 	return (tab - words);
-}
-
-int	main(void)
-{
-	char	**tab;
-	int		i;
-
-	tab = ft_split("hello world", ' ');
-	i = 0;
-	while (tab[i])
-	{
-		printf("%s\n", tab[i]);
-		i++;
-	}
-	return (0);
 }
