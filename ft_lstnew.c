@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                       :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,40 +12,14 @@
 
 #include "libft.h"
 
-int	get_digits(int n)
+t_list	*ft_lstnew(void *content)
 {
-	int	digits;
+	t_list	*node;
 
-	digits = 1;
-	while (n /= 10)
-		digits += 1;
-	return (digits);
-}
-
-char	*ft_itoa(int n)
-{
-	char	*nstr;
-	int		digits;
-	int		sign;
-
-	sign = 1;
-	digits = get_digits(n) + (n < 0);
-	nstr = (char *)malloc((digits + 1) * sizeof(char));
-	if (!nstr)
+	node = (t_list *)malloc(sizeof(t_list));
+	if (!node)
 		return (NULL);
-	*nstr = '-';
-	if (n < 0)
-		sign = -1;
-	else
-		*nstr = '0';
-	nstr += digits;
-	*nstr = '\0';
-	while (n)
-	{
-		nstr--;
-		*nstr = sign * (n % 10) + 48;
-		n /= 10;
-		digits--;
-	}
-	return (nstr - digits);
+	node->content = content;
+	node->next = NULL;
+	return (node);
 }

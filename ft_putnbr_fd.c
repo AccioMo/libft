@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                       :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -17,35 +17,32 @@ int	get_digits(int n)
 	int	digits;
 
 	digits = 1;
-	while (n /= 10)
-		digits += 1;
+	while (n / 10)
+	{
+		digits *= 10;
+		n /= 10;
+	}
 	return (digits);
 }
 
-char	*ft_itoa(int n)
+void	ft_putnbr_fd(int n, int fd)
 {
-	char	*nstr;
+	char	cnbr;
 	int		digits;
 	int		sign;
 
 	sign = 1;
-	digits = get_digits(n) + (n < 0);
-	nstr = (char *)malloc((digits + 1) * sizeof(char));
-	if (!nstr)
-		return (NULL);
-	*nstr = '-';
 	if (n < 0)
-		sign = -1;
-	else
-		*nstr = '0';
-	nstr += digits;
-	*nstr = '\0';
-	while (n)
 	{
-		nstr--;
-		*nstr = sign * (n % 10) + 48;
-		n /= 10;
-		digits--;
+		sign = -sign;
+		write(fd, "-", 1);
 	}
-	return (nstr - digits);
+	digits = get_digits(n);
+	while (digits)
+	{
+		cnbr = sign * (n / digits) + 48;
+		write(fd, &cnbr, 1);
+		n %= digits;
+		digits /= 10;
+	}
 }
