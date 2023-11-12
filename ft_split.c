@@ -6,15 +6,13 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 20:47:41 by mzeggaf           #+#    #+#             */
-/*   Updated: 2023/11/03 21:44:34 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2023/11/12 21:38:54 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
-#include <string.h>
 
-int	is_sep(const char *s, char c)
+static int	is_sep(const char *s, char c)
 {
 	if (*s != c && (*(s + 1) == c || *(s + 1) == '\0'))
 		return (1);
@@ -22,7 +20,7 @@ int	is_sep(const char *s, char c)
 		return (0);
 }
 
-int	count_words(const char *s, char c)
+static int	count_words(const char *s, char c)
 {
 	int	words;
 
@@ -36,6 +34,34 @@ int	count_words(const char *s, char c)
 	return (words);
 }
 
+static const char	*assign_word(char **tab, const char *s, char c)
+{
+	int	len;
+
+	len = 0;
+	while (*s && *s == c)
+		s++;
+	while (*(s + len) && *(s + len) != c)
+		len++;
+	*tab = ft_substr(s, 0, len);
+	if (!*tab)
+		return (NULL);
+	return (s + len);
+}
+
+static void	ft_freeall(void **ptr, void *end)
+{
+	int	i;
+
+	i = 0;
+	while (*(ptr + i) != end)
+	{
+		free(*(ptr + i));
+		i++;
+	}
+	free(ptr);
+}
+
 char	**ft_split(char const *s, char c)
 {
 	char	**tab;
@@ -43,24 +69,22 @@ char	**ft_split(char const *s, char c)
 	int		i;
 
 	i = 0;
+	if (!s)
+		return (NULL);
 	words = count_words(s, c);
-	tab = (char **)malloc((words + 1) * sizeof(char*));
+	tab = (char **)malloc((words + 1) * sizeof(char *));
 	if (!tab)
 		return (NULL);
 	tab[words] = NULL;
-	while (*s)
+	while (i < words)
 	{
-		if (*s != c)
+		s = assign_word(tab + i, s, c);
+		if (s == NULL)
 		{
-			i++;
-			if (is_sep(s, c))
-			{
-				*tab = ft_substr(s + 1 - i, 0, i);
-				tab++;
-				i = 0;
-			}
+			ft_freeall((void **)tab, *(tab + i));
+			return (NULL);
 		}
-		s++;
+		i++;
 	}
-	return (tab - words);
+	return (tab);
 }

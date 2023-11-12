@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                       :+:      :+:    :+:   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 21:15:59 by mzeggaf           #+#    #+#             */
-/*   Updated: 2023/10/30 21:32:50 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2023/11/12 21:38:04 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	get_digits(int n)
+static int	get_mag(int n)
 {
 	int	digits;
 
 	digits = 1;
-	while (n /= 10)
+	while (n / 10)
+	{
+		n /= 10;
 		digits += 1;
+	}
 	return (digits);
 }
 
@@ -29,7 +32,7 @@ char	*ft_itoa(int n)
 	int		sign;
 
 	sign = 1;
-	digits = get_digits(n) + (n < 0);
+	digits = get_mag(n) + (n < 0);
 	nstr = (char *)malloc((digits + 1) * sizeof(char));
 	if (!nstr)
 		return (NULL);

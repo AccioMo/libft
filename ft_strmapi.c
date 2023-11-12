@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 21:15:59 by mzeggaf           #+#    #+#             */
-/*   Updated: 2023/10/30 21:32:50 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2023/11/12 01:39:18 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,12 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	unsigned int	i;
 	char			*cpy;
 
+	if (!s || !f)
+		return (NULL);
 	i = 0;
 	cpy = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
+	if (!cpy)
+		return (NULL);
 	while (*s)
 	{
 		cpy[i] = f(i, *s);
