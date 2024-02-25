@@ -1,39 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/02 15:17:10 by mzeggaf           #+#    #+#             */
-/*   Updated: 2023/11/12 21:39:43 by mzeggaf          ###   ########.fr       */
+/*   Created: 2023/11/03 02:08:40 by mzeggaf           #+#    #+#             */
+/*   Updated: 2024/01/15 17:05:19 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
-static int	find_match(const char *haystack, const char *needle, size_t len)
+static char	*alt_strcpy(char *dest, const char *src)
 {
-	while (*needle && *haystack == *needle && len)
+	while (*src)
 	{
-		haystack++;
-		needle++;
-		len--;
+		*dest = *src;
+		dest++;
+		src++;
 	}
-	return (*needle == 0);
+	return (dest);
 }
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	if (!haystack && !len)
+	char	*str;
+
+	if (!s1 || !s2)
 		return (NULL);
-	while ((*haystack && len) || !*needle)
-	{
-		if (find_match(haystack, needle, len))
-			return ((char *)haystack);
-		haystack++;
-		len--;
-	}
-	return (NULL);
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!str)
+		return (NULL);
+	*alt_strcpy(alt_strcpy(str, s1), s2) = '\0';
+	return (str);
 }

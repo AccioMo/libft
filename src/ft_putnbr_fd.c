@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 21:15:59 by mzeggaf           #+#    #+#             */
-/*   Updated: 2023/11/12 22:00:29 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2023/11/16 16:42:46 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	ft_putnbr_fd(int n, int fd)
 	int		sign;
 
 	sign = 1;
+	if (fd < 0)
+		return ;
 	if (n < 0)
 	{
 		sign = -sign;

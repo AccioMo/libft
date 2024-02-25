@@ -1,38 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/30 21:15:59 by mzeggaf           #+#    #+#             */
-/*   Updated: 2023/11/12 18:17:43 by mzeggaf          ###   ########.fr       */
+/*   Created: 2023/11/02 15:17:10 by mzeggaf           #+#    #+#             */
+/*   Updated: 2023/11/13 20:39:24 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *),	void (*del)(void *))
+static int	find_match(const char *haystack, const char *needle, size_t len)
 {
-	t_list	*anchor;
-	t_list	*final;
-	void	*tmp;
-
-	if (!lst || !f || !del)
-		return (NULL);
-	anchor = NULL;
-	while (lst)
+	while (*needle && *haystack == *needle && len)
 	{
-		tmp = f(lst->content);
-		final = ft_lstnew(tmp);
-		if (!final)
-		{
-			del(tmp);
-			ft_lstclear(&anchor, del);
-			return (NULL);
-		}
-		ft_lstadd_back(&anchor, final);
-		lst = lst->next;
+		haystack++;
+		needle++;
+		len--;
 	}
-	return (anchor);
+	return (*needle == 0);
+}
+
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+{
+	if (!haystack && !len)
+		return (NULL);
+	while ((*haystack && len) || !*needle)
+	{
+		if (find_match(haystack, needle, len))
+			return ((char *)haystack);
+		haystack++;
+		len--;
+	}
+	return (NULL);
 }
