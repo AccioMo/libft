@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 16:04:05 by mzeggaf           #+#    #+#             */
-/*   Updated: 2023/11/13 21:59:22 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/03/09 19:27:37 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
+int		ft_larger_than(const char *str, char *max);
 int		ft_atoi(const char *nptr);
 
 /*			WITH MALLOC			*/
